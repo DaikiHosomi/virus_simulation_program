@@ -92,10 +92,10 @@ let getNormRand = function (recoveryTimeInMillis, standardDeviation) {
   let Xsqrt = Math.sqrt(-2 * Math.log(U1));
   if(0.5 - Math.random() > 0) {
       let normRand = Xsqrt * Math.sin(Math.PI * 2 * U2) * standardDeviation + recoveryTimeInMillis;
-      return (normRand > 0) ? normRand : 0;
+      return (normRand > 0) ? Math.floor(normRand) : 0;
   }else{
        let normRand =  Xsqrt * Math.cos(Math.PI * 2 * U2) * standardDeviation + recoveryTimeInMillis;
-      return (normRand > 0) ? normRand : 0;
+      return (normRand > 0) ? Math.floor(normRand) : 0;
   }
 };
   p.checkForRecovered = () => {
