@@ -93,8 +93,8 @@ let getNormRand = function (recoveryTimeInMillis, standardDeviation) {
   if(0.5 - Math.random() > 0) {
       let normRand = Xsqrt * Math.sin(Math.PI * 2 * U2) * standardDeviation + recoveryTimeInMillis;
       return (normRand > 0) ? Math.floor(normRand) : 0;
-  }else{
-       let normRand =  Xsqrt * Math.cos(Math.PI * 2 * U2) * standardDeviation + recoveryTimeInMillis;
+  }　else　{
+      let normRand =  Xsqrt * Math.cos(Math.PI * 2 * U2) * standardDeviation + recoveryTimeInMillis;
       return (normRand > 0) ? Math.floor(normRand) : 0;
   }
 };
