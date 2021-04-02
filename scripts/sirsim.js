@@ -14,6 +14,7 @@ let sketch = (p) => {
     1: '#ffff00',
     2: '#ff0000',
     3: '#00ff00',
+    4: '#000000',
   }
 
   //====== SIMULATION INTERNAL VARIABLES ======//
@@ -33,13 +34,15 @@ let sketch = (p) => {
   /** probability of infecting others when colliding with them */
   let infectionProbability;
   let speed; /** ball's speed */
+  let detectionSuccessRate;
   /**
    * Enumerates the three SIR possible status.
    */
   const status = {
     SUSCEPTIBLE: 1,
     INFECTIOUS: 2,
-    RECOVERED: 3
+    RECOVERED: 3,
+    QUARANTINED: 4,
   };
 
   /**
@@ -52,7 +55,8 @@ let sketch = (p) => {
     popsize: 300,
     recoveryTimeInMillis: 2000,
     infectionProbability: 1,
-    speed: 2
+    speed: 2,
+    detectionSuccessRate: 0.5
   };
 
   //====== VARIABLE ACCESS METHODS ======//
@@ -161,6 +165,8 @@ let getNormRand = function (recoveryTimeInMillis, standardDeviation) {
     infectionProbability =
       (args && args.infectionProbability) ? args.infectionProbability : defaultValues.infectionProbability;
     speed = (args && args.speed) ? args.speed : defaultValues.speed;
+    detectionSuccessRate =
+      (args && args.detectionSuccessRate) ? args.detectionSuccessRate : defaultValues.detectionSuccessRate;
 
     // create the balls
     for (let i = 0; i < numBalls; i++) {
@@ -192,6 +198,7 @@ let getNormRand = function (recoveryTimeInMillis, standardDeviation) {
       ball.collide();
       ball.move();
       ball.display();
+      ball.checkForINFECTIOUS();
       p.pop();
     });
   }
@@ -251,6 +258,13 @@ let getNormRand = function (recoveryTimeInMillis, standardDeviation) {
         this.status = status.INFECTIOUS;
         ballsInfectionTime.push({ time: Date.now(), index: this.id });
       }
+    }
+
+    checkForINFECTIOUS() {
+      if(this.status === status.INFECTIOUS &&
+        (Math.random() <= detectionSuccessRate)) {
+          this.status = status.QUARANTINED;
+        }
     }
 
     move() {
