@@ -10,6 +10,9 @@ infectionprobability.addEventListener("change", changeSimParams());
 var speedRange = document.getElementById('speed');
 speedRange.addEventListener("change", changeSimParams());
 
+var detectionsuccessrate = document.getElementById('detectionsuccessrate');
+detectionsuccessrate.addEventListener("change", changeSimParams());
+
 var restartbtn = document.getElementById('restartbtn');
 restartbtn.addEventListener("click", changeSimParams());
 
@@ -25,6 +28,7 @@ function changeSimParams(resetToDefault) {
       $('#rtactval').html(document.getElementById('recoverytimeinmillis').value);
       $('#ipactval').html(document.getElementById('infectionprobability').value);
       $('#spactval').html(document.getElementById('speed').value);
+      $('#dsractval').html(document.getElementById('detectionsuccessrate').value);
     }
     return () => {
       const defaultValues = sirsim.getDefaultValues();
@@ -32,12 +36,13 @@ function changeSimParams(resetToDefault) {
       recoverytimeinmillis.value = defaultValues.recoveryTimeInMillis;
       infectionprobability.value = defaultValues.infectionProbability;
       speedRange.value = defaultValues.speed;
+      detectionsuccessrate.value = defaultValues.detectionSuccessRate;
       sirsim.reset();
       updateRangeValues();
     }
   }
 
-  let prev_psize, prev_rectime, prev_iprob, prev_speed;
+  let prev_psize, prev_rectime, prev_iprob, prev_speed, prev_dsucrate;
   return function () {
     if (resetToDefault) {
       sirsim.reset();
@@ -47,6 +52,7 @@ function changeSimParams(resetToDefault) {
       let rectime = parseInt(recoverytimeinmillis.value);
       let iprob = parseFloat(infectionprobability.value);
       let speed = parseFloat(speedRange.value);
+      let dsucrate = parseFloat(detectionsuccessrate.value);
       if (psize >= 10 && psize <= 500) {
         arg.popsize = psize;
       }
@@ -59,8 +65,11 @@ function changeSimParams(resetToDefault) {
       if (speed) {
         arg.speed = speed;
       }
+      if(dsucrate) {
+        arg.detectionSuccessRate = dsucrate;
+      }
       if (prev_psize !== psize || prev_iprob !== iprob ||
-        prev_rectime !== rectime || prev_speed !== speed) {
+        prev_rectime !== rectime || prev_speed !== speed || dsucrate !== dsucrate) {
         sirsim.reset(arg);
       }
     }
@@ -77,11 +86,14 @@ $(function () {
   $("#rtmax").html(document.getElementById('recoverytimeinmillis').getAttribute('max'));
   $("#spmin").html(document.getElementById('speed').getAttribute('min'));
   $("#spmax").html(document.getElementById('speed').getAttribute('max'));
+  $("#dsrmin").html(document.getElementById('detectionsuccessrate').getAttribute('min'));
+  $("#dsrmax").html(document.getElementById('detectionsuccessrate').getAttribute('max'));
 
   $('#psactval').html(document.getElementById('popsize').value);
   $('#rtactval').html(document.getElementById('recoverytimeinmillis').value);
   $('#ipactval').html(document.getElementById('infectionprobability').value);
   $('#spactval').html(document.getElementById('speed').value);
+  $('#dsractval').html(document.getElementById('detectionsuccessrate').value);
 
   popsize.addEventListener('change', (() => {
     $('#psactval').html(document.getElementById('popsize').value);
@@ -94,6 +106,9 @@ $(function () {
   }));
   speedRange.addEventListener('change', (() => {
     $('#spactval').html(document.getElementById('speed').value);
+  }));
+  detectionsuccessrate.addEventListener('change', (() => {
+    $('#dsractval').html(document.getElementById('detectionsuccessrate').value);
   }));
 });
 

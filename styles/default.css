@@ -196,6 +196,10 @@ input[type=range]::-webkit-slider-thumb {
     background: #ffff00;
 }
 
+#detectionsuccessrate::-webkit-slider-thumb {
+    background: #000000;
+}
+
 /* Buttons style */
 button {
     background-color: #cecece;
