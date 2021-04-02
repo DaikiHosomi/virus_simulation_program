@@ -26,7 +26,7 @@ let graphSketch = (p) => {
     p.background(255);
     currentXCoordinatePixel = 0;
     prev_x = 0;
-    prev_y = { SUSCEPTIBLE: sirsim.getNumberOfBalls(), INFECTIOUS: 0, RECOVERED: 0 }; // PREV was: SUSCEPTIBLE: 0
+    prev_y = { SUSCEPTIBLE: sirsim.getNumberOfBalls(), INFECTIOUS: 0, RECOVERED: 0, QUARANTINED: 0}; // PREV was: SUSCEPTIBLE: 0
     lineDrawer = createLineDrawer(sirsim.getNumberOfBalls());
     p.strokeWeight(4);
     p.loop();
@@ -48,9 +48,10 @@ let graphSketch = (p) => {
     const statusColorRGB = {
       SUSCEPTIBLE: { r: 255, g: 255, b: 0 },
       INFECTIOUS: { r: 255, g: 0, b: 0 },
-      RECOVERED: { r: 0, g: 255, b: 0 }
+      RECOVERED: { r: 0, g: 255, b: 0 },
+      QUARANTINED: {r: 0, g: 0, b: 0},
     };
-    let prev_x = 0, prev_y = { SUSCEPTIBLE: sirsim.getNumberOfBalls(), INFECTIOUS: 0, RECOVERED: 0 }; // PREV was: SUSCEPTIBLE: 0
+    let prev_x = 0, prev_y = { SUSCEPTIBLE: sirsim.getNumberOfBalls(), INFECTIOUS: 0, RECOVERED: 0, QUARANTINED: 0}; // PREV was: SUSCEPTIBLE: 0
 
     let totalBalls = numberOfBalls;
     let height = graphCanvasSize.height;
@@ -65,7 +66,7 @@ let graphSketch = (p) => {
     lineDrawer.drawLines = (statusArray) => {
       // reset numberOfBallsInStatus
       numberOfBallsInStatus =
-        { SUSCEPTIBLE: numberOfBalls, INFECTIOUS: 0, RECOVERED: 0 }; // PREV was: SUSCEPTIBLE: 0
+        { SUSCEPTIBLE: numberOfBalls, INFECTIOUS: 0, RECOVERED: 0, QUARANTINED: 0}; // PREV was: SUSCEPTIBLE: 0
       // calculate the new numberOfBallsInStatus
       statusArray.forEach(element => {
         switch (element) {
@@ -79,6 +80,10 @@ let graphSketch = (p) => {
           case status.RECOVERED:
             ++numberOfBallsInStatus.RECOVERED;
             --numberOfBallsInStatus.SUSCEPTIBLE; // PREV: 
+            break;
+          case status.QUARANTINED:
+              ++numberOfBallsInStatus.QUARANTINED;
+              --numberOfBallsInStatus.SUSCEPTIBLE; // PREV: 
             break;
           default:
             //--numberOfBallsInStatus.SUSCEPTIBLE; // PREV: 
