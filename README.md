@@ -1,4 +1,4 @@
-確認方法
+# ウイルスシュミレーションプログラム
 
-1. git clone git@github.com:DaikiHosomi/Engineer_Test.git
-2. index.html　を　Google Chromで開く
+以下のリンクから本番環境をご確認いただけます。
+https://daikihosomi.github.io/virus_simulation_program/
